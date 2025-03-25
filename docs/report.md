@@ -6,6 +6,8 @@
 ## 实验环境
 - Python 3.12.9
 - Miniconda
+- [Tokenizers](https://huggingface.co/docs/tokenizers/index) by HuggingFace
+- MatPlotLib
 
 ## 实验原理
 
