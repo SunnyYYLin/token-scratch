@@ -8,6 +8,48 @@ from .tokenizer import Tokenizer
 from .utils import split_to_process
     
 class WordPiece(Tokenizer):
+    """
+    WordPiece 分词器实现。
+    该类实现了 WordPiece 分词器，这是一种常用于自然语言处理任务的子词分词算法。
+    它支持通过语料库训练来构建子词标记的词汇表，并将文本编码为标记 ID。
+    类：
+        WordPiece: 实现 WordPiece 算法的分词器。
+    方法：
+        __init__(vocab_size=1000, special_tokens: list[str] = ['<unk>'], parallel_num: int = 1):
+            使用指定的词汇表大小、特殊标记和并行处理配置初始化 WordPiece 分词器。
+        __len__():
+            返回当前词汇表的大小。
+        train(corpus: str) -> None:
+            在给定语料库上训练分词器以构建词汇表。
+        train_increment(corpus: str) -> None:
+            在额外的语料数据上增量训练分词器。
+        _init_vocab(corpus: str) -> None:
+            从给定的语料库初始化词汇表。
+        _pretokenize(corpus: str) -> Counter[str]:
+            将语料库预分词为词频表。另外给单词内部插入空格。
+        _train_from_word_freqs(word_freqs: Counter[str]) -> None:
+            使用词频表训练分词器。
+        _train_single_epoch(word_freqs: Counter[str]) -> Counter[str]:
+            通过合并最可能的标记对执行单次训练迭代。
+        _count_pairs(word_freqs: Counter[str]):
+            统计语料库中标记对及其频率。
+        _count_pairs_worker(chunk: list[tuple[str, int]]):
+            用于并行统计标记对的工作函数。
+        _score(token_freqs: Counter[str], pair_freqs: Counter[tuple[str, str]]):
+            根据频率对标记对进行评分。
+        _score_worker(token_freqs: Counter[str], pair_freqs: Counter[tuple[str, str]]):
+            用于并行评分标记对的工作函数。
+        _update_vocab(pair: tuple[str, str]) -> tuple[int, str]:
+            使用通过合并标记对形成的新标记更新词汇表。
+        _merge_pair(word_freqs: Counter[str], pair: tuple[str, str]) -> Counter[str]:
+            在词频表中合并标记对。
+        data -> dict:
+            返回分词器的数据，包括词汇表大小、特殊标记和标记映射。
+        load(path: str | Path) -> 'WordPiece':
+            从文件加载 WordPiece 分词器。
+        _load(data: dict) -> None:
+            从字典加载分词器数据。
+    """
     def __init__(self, vocab_size=1000, special_tokens: list[str] = ['<unk>'], parallel_num: int = 1):
         super().__init__(vocab_size, special_tokens)
         self.merges = []

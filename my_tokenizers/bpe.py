@@ -8,6 +8,47 @@ from .tokenizer import Tokenizer
 from .utils import split_to_process
     
 class BPE(Tokenizer):
+    """
+    BPE（Byte Pair Encoding）分词器类。
+    该类实现了基于BPE算法的分词器，用于从文本语料中训练和生成词汇表。
+    属性:
+        vocab_size (int): 词汇表的最大大小。
+        special_tokens (list[str]): 特殊标记列表，例如 `<unk>`。
+        parallel_num (int): 并行处理的进程数。
+        merges (list[tuple[str, str]]): 记录的合并操作列表。
+        vocab (list[str]): 当前词汇表。
+        token2ids (dict[str, int]): 词汇到ID的映射。
+        id2tokens (dict[int, str]): ID到词汇的映射。
+    方法:
+        __len__():
+            返回当前词汇表的大小。
+        train(corpus: str) -> None:
+            使用给定的语料库训练BPE分词器。
+        train_increment(corpus: str) -> None:
+            增量训练BPE分词器，基于新的语料库更新词汇表。
+        _init_vocab(corpus: str) -> None:
+            初始化词汇表，基于语料库生成初始词汇表。
+        _pretokenize(corpus: str) -> Counter[str]:
+            对语料库进行预分词，统计词频。
+        _train_from_word_freqs(word_freqs: Counter[str]) -> None:
+            基于词频数据训练BPE分词器。
+        _train_single_epoch(word_freqs: Counter[str]) -> Counter[str]:
+            执行单轮BPE训练，找到最频繁的词对并更新词汇表。
+        _count_pairs(word_freqs: Counter[str]) -> Counter[tuple[str, str]]:
+            并行统计词对的频率。
+        _count_pairs_worker(chunk: list[tuple[str, int]]) -> Counter[tuple[str, str]]:
+            单线程统计词对频率的辅助函数。
+        _update_vocab(pair: tuple[str, str]) -> tuple[int, str]:
+            更新词汇表，添加新的合并词对。
+        _merge_pair(word_freqs: Counter[str], pair: tuple[str, str]) -> Counter[str]:
+            合并词对并更新词频数据。
+        data -> dict:
+            返回分词器的当前状态数据，包括词汇表大小、特殊标记、ID映射和合并操作。
+        load(cls, path: str | Path) -> 'BPE':
+            从文件加载BPE分词器的状态。
+        _load(data: dict) -> None:
+            从字典数据加载分词器的状态。
+    """
     def __init__(self, vocab_size=1000, special_tokens: list[str] = ['<unk>'], parallel_num: int = 1):
         super().__init__(vocab_size, special_tokens)
         self.merges = []
