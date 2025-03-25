@@ -4,10 +4,10 @@ from tqdm import tqdm
 from collections import Counter
 from multiprocessing import Pool
 import re
-from .tokenizer import Tokenizer
+from .tokenizer import MyTokenizer
 from .utils import split_to_process
     
-class BPE(Tokenizer):
+class MyBPE(MyTokenizer):
     """
     BPE（Byte Pair Encoding）分词器类。
     该类实现了基于BPE算法的分词器，用于从文本语料中训练和生成词汇表。

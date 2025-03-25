@@ -1,6 +1,4 @@
-from multiprocessing import Pool
-from typing import Sequence, Iterable, TypeVar
-from collections import Counter
+from typing import Sequence, TypeVar
 
 Elem = TypeVar('Elem')
 

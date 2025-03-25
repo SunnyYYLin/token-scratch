@@ -1,3 +1,2 @@
-from .bpe import BPE
-from .wordpiece import WordPiece
-from .unigram import Unigram
+from .bpe import MyBPE
+from .wordpiece import MyWordPiece

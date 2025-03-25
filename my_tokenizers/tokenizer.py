@@ -4,9 +4,9 @@ from pygtrie import CharTrie
 from tqdm import tqdm
 import json
 
-class Tokenizer(ABC):
+class MyTokenizer(ABC):
     """
-    抽象基类：Tokenizer（分词器）。
+    抽象基类：MyTokenizer（分词器）。
     此类提供了一个框架，用于实现具有训练、编码、解码以及保存/加载分词数据方法的分词器。
     它使用前缀树（trie）在编码过程中实现高效的最长前缀匹配。
     

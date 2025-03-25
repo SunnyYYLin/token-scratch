@@ -4,16 +4,14 @@ from tqdm import tqdm
 from collections import Counter
 from multiprocessing import Pool
 import re
-from .tokenizer import Tokenizer
+from .tokenizer import MyTokenizer
 from .utils import split_to_process
     
-class WordPiece(Tokenizer):
+class MyWordPiece(MyTokenizer):
     """
     WordPiece 分词器实现。
     该类实现了 WordPiece 分词器，这是一种常用于自然语言处理任务的子词分词算法。
     它支持通过语料库训练来构建子词标记的词汇表，并将文本编码为标记 ID。
-    类：
-        WordPiece: 实现 WordPiece 算法的分词器。
     方法：
         __init__(vocab_size=1000, special_tokens: list[str] = ['<unk>'], parallel_num: int = 1):
             使用指定的词汇表大小、特殊标记和并行处理配置初始化 WordPiece 分词器。
